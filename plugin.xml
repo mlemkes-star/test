@@ -4,24 +4,33 @@
         version="1.0.0">
 
     <name>ProGloveIntentPlugin</name>
-    <description>Listens for ProGlove DISPLAY_BUTTON broadcast intents (button gestures)</description>
+    <description>Listens for ProGlove DISPLAY_BUTTON broadcast intents</description>
     <license>MIT</license>
 
-    <!-- JS file staat bij jou in de root -->
+    <!-- JS file in root -->
     <js-module src="proglove-intent.js" name="ProGloveIntent">
         <clobbers target="cordova.plugins.progloveIntent" />
     </js-module>
 
     <platform name="android">
 
-        <!-- Feature mapping naar jouw Java package -->
+        <!-- Register plugin class -->
         <config-file target="config.xml" parent="/*">
             <feature name="ProGloveIntentPlugin">
                 <param name="android-package" value="com.example.cordova.progloveintent.ProGloveIntentPlugin" />
             </feature>
         </config-file>
 
-        <!-- Java file staat bij jou in de root -->
+        <!-- REQUIRED for OutSystems MABS -->
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+            <receiver android:name="com.example.cordova.progloveintent.ProGloveIntentPlugin">
+                <intent-filter>
+                    <action android:name="com.proglove.api.DISPLAY_BUTTON" />
+                </intent-filter>
+            </receiver>
+        </config-file>
+
+        <!-- Java file in root -->
         <source-file src="ProGloveIntentPlugin.java"
                      target-dir="src/com/example/cordova/progloveintent" />
     </platform>
